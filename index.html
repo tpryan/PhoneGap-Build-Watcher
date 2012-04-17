@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Build Watcher</title>
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="creds.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    var attempts = 0;
+    var baseURL = "https://build.phonegap.com";
+    var appApiPath = "/api/v1/apps/";
+
+    $(document).ready(function() {
+      callTheJsonp();
+    });
+
+
+    function callTheJsonp()
+    {
+
+        $.ajax({
+          url: baseURL + appApiPath + projectID,
+          dataType: 'jsonp',
+          username: username,
+          password: password,
+          success: parseRequest
+        });
+
+    }
+
+    function determinePlatform(){
+        if(typeof(device) != "undefined"){
+            return device.platform;
+        }
+        else{
+            return "Not a supported platform";
+        }
+    }
+
+    function getPlatformInfo(response,platform){
+        var urlPlatform = platform.toLowerCase();
+        if (platform == "Not a supported platform"){
+            urlPlatform = "android";
+        }
+
+        var result = new Object();
+        result['download'] = response.download[urlPlatform];
+        result['status'] = response.status[urlPlatform];
+        result['title'] = response.title;
+        result['description'] = response.description;
+        result['platform'] = platform;
+
+        return result;
+    }
+
+    function populateDetails(details){
+        $('#title').html(details.title);
+        $('#description').html(details.description);
+        $('#platform').html(details.platform);
+        $('#status').html(details.status);
+        $('#attempts').html(attempts);
+        if (details.status == "complete"){
+             attempts = 0;
+            $('#download').html('<a href="' + baseURL +  details.download + '">Download App</a>');
+        }    
+        else{
+            $('#download').html('');
+        }
+    }
+
+    // this function should parse responses.. you can do anything you need..
+    // you can make it general so it would parse all the responses the page receives based on a response field
+    function parseRequest(response)
+    {
+        try // try to output this to the javascript console
+        {
+            var results =getPlatformInfo(response,determinePlatform());
+            populateDetails(results);
+
+            console.log(results.status);
+            if (results.status == "pending"){
+                console.log("Scheduling another attempt");
+                attempts = attempts + 1;
+                setTimeout("callTheJsonp()", 1000);
+            }
+
+        }
+        catch(an_exception) // alert for the users that don't have a javascript console
+        {
+            alert(an_exception);
+        }
+    }
+
+
+    </script>
+  </head>
+  <body>
+    <table>
+        <tr><th>Title</th><td id="title"></td></tr>
+        <tr><th>Description</th><td id="description"></td></tr>
+        <tr><th>Platform</th><td id="platform"></td></tr>
+        <tr><th>Status</th><td id="status"></td></tr>
+        <tr><th>Attempts</th><td id="attempts"></td></tr>
+        <tr><th>Download</th><td id="download"></td></tr>
+    </table>    
+
+    <button onclick="callTheJsonp()">Refresh Status</button>
+  </body>
+</html>
+
+
+
