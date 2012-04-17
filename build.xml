@@ -53,7 +53,7 @@
 
 		<echo message="Pushing Text to Prod"/>
 		<ftp server="${ftp.server}" userid="${ftp.username}" password="${ftp.password}" 
-				timediffauto="true"  retriesAllowed="1" passive="yes" remotedir="/examples/compass" depends="yes" 
+				timediffauto="true"  retriesAllowed="1" passive="yes" remotedir="/examples/watcher" depends="yes" 
 				action="send" verbose="${verbose}" binary="no" timestampGranularity="MINUTE">
 			<fileset dir="${build.dir}">
 				<include name="**/*.css"/>
@@ -65,7 +65,7 @@
 
 		<echo message="Pushing Binaries to Prod"/>
 		<ftp server="${ftp.server}" userid="${ftp.username}" password="${ftp.password}" 
-			timediffauto="true"  retriesAllowed="1" passive="yes" remotedir="/examples/compass" depends="yes" 
+			timediffauto="true"  retriesAllowed="1" passive="yes" remotedir="/examples/watcher" depends="yes" 
 			action="send" verbose="${verbose}" binary="yes" timestampGranularity="MINUTE">
 			<fileset dir="${build.dir}">
 				<include name="**/*.png*"/>
@@ -86,7 +86,7 @@
 
 		<echo message="Deleting from Prod"/>
 		<ftp server="${ftp.server}" userid="${ftp.username}" password="${ftp.password}" 
-				 passive="yes" remotedir="/examples/compass" 
+				 passive="yes" remotedir="/examples/watcher" 
 				action="del" verbose="${verbose}"  >
 			<fileset>
 				<include name="**/*.svg"/>
@@ -104,7 +104,7 @@
 		</ftp>
 
 		<ftp server="${ftp.server}" userid="${ftp.username}" password="${ftp.password}" 
-				 passive="yes" remotedir="/examples/compass" 
+				 passive="yes" remotedir="/examples/watcher" 
 				action="rmdir" verbose="${verbose}"  >
 			<fileset>
 				<include name="**/**"/>

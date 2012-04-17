@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>Build Watcher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-     <link href="css/main.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script src="http://debug.phonegap.com/target/target-script-min.js#pgbwatcher"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
 
     <script type="text/javascript">
@@ -15,14 +17,14 @@
     var password = localStorage.getItem("password");
 
     $(document).ready(function() {
-      
+      console.log("Ready");
       callTheJsonp();
     });
 
 
     function callTheJsonp()
     {
-
+      console.log("Calling the Ajax");
         $.ajax({
           url: baseURL + appApiPath,
           dataType: 'jsonp',
@@ -37,9 +39,11 @@
     // you can make it general so it would parse all the responses the page receives based on a response field
     function parseRequest(response)
     {
+       console.log("Page returned");
+       
         try // try to output this to the javascript console
         {
-            console.log(response);
+          console.log(response);  
             for (var i=0; i < response.apps.length; i++){
               $('#applist').append('<li><a class="btn btn-large" href="project.html?id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
             }
@@ -62,13 +66,6 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-                <li class="">
-                <a href="./list.html">Project List</a>
-                </li>
-            </ul>
-          </div>
           <a class="btn pull-right" href="./clear.html">Logout</a>
         </div>
       </div>

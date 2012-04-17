@@ -4,6 +4,7 @@ body{
 
 #applist{
 	list-style: none;
+	margin-left: 0;
 
 }
 #applist li{
@@ -13,5 +14,12 @@ body{
 
 #applist li a.btn-large{
 	
-	width: 100%;
+	width: 80%;
+}
+
+@media (max-width:985px) {
+	body{
+		padding-top: 0;
+	}
+
 }
