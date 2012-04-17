@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Build Watcher</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+     <link href="css/main.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+    <script type="text/javascript">
+
+    var baseURL = "https://build.phonegap.com";
+    var appApiPath = "/api/v1/apps/";
+    var username = localStorage.getItem("username");
+    var password = localStorage.getItem("password");
+
+    $(document).ready(function() {
+      
+      callTheJsonp();
+    });
+
+
+    function callTheJsonp()
+    {
+
+        $.ajax({
+          url: baseURL + appApiPath,
+          dataType: 'jsonp',
+          username: username,
+          password: password,
+          success: parseRequest
+        });
+
+    }
+
+    // this function should parse responses.. you can do anything you need..
+    // you can make it general so it would parse all the responses the page receives based on a response field
+    function parseRequest(response)
+    {
+        try // try to output this to the javascript console
+        {
+            console.log(response);
+            for (var i=0; i < response.apps.length; i++){
+              $('#applist').append('<li><a class="btn btn-large" href="project.html?id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
+            }
+
+
+        }
+        catch(an_exception) // alert for the users that don't have a javascript console
+        {
+            alert(an_exception);
+        }
+    }
+
+
+    </script>
+
+</head>    
+<body>
+
+  <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+                <li class="">
+                <a href="./list.html">Project List</a>
+                </li>
+            </ul>
+          </div>
+          <a class="btn pull-right" href="./clear.html">Logout</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <ul id="applist">
+
+      </ul> 
+    </div>
+
+	
+</body>
+</html>

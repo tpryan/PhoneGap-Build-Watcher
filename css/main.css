@@ -1,0 +1,17 @@
+body{
+	padding-top: 60px;
+}
+
+#applist{
+	list-style: none;
+
+}
+#applist li{
+	display: block;
+	padding-bottom: 20px;
+}
+
+#applist li a.btn-large{
+	
+	width: 100%;
+}

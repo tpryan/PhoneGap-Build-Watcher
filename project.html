@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Build Watcher</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+     <link href="css/main.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    var attempts = 0;
+    var baseURL = "https://build.phonegap.com";
+    var appApiPath = "/api/v1/apps/";
+    var username = localStorage.getItem("username");
+    var password = localStorage.getItem("password");
+    var id = getURLParameter("id");
+
+
+    $(document).ready(function() {
+      callTheJsonp();
+    });
+
+
+    function callTheJsonp()
+    {
+
+        $.ajax({
+          url: baseURL + appApiPath + id,
+          dataType: 'jsonp',
+          username: username,
+          password: password,
+          success: parseRequest
+        });
+
+    }
+
+    function getURLParameter(name) {
+        return decodeURIComponent(
+            (location.search.match(RegExp("[?|&]"+name+'=(.+?)(&|$)'))||[,null])[1]
+        );  
+    }
+
+    function determinePlatform(){
+        if(typeof(device) != "undefined"){
+            return device.platform;
+        }
+        else{
+            return "Not a supported platform";
+        }
+    }
+
+    function getPlatformInfo(response,platform){
+        var urlPlatform = platform.toLowerCase();
+        if (platform == "Not a supported platform"){
+            urlPlatform = "android";
+        }
+
+        var result = new Object();
+        result['download'] = response.download[urlPlatform];
+        result['status'] = response.status[urlPlatform];
+        result['title'] = response.title;
+        result['description'] = response.description;
+        result['platform'] = platform;
+
+        return result;
+    }
+
+    function populateDetails(details){
+        var statusClass = "warning";
+
+
+
+
+        $('#title').html(details.title);
+        $('#description').html(details.description);
+        $('#platform').html(details.platform);
+        
+        $('#attempts').html(attempts);
+        if (details.status == "complete"){
+
+            if (attempts > 0){
+                showAlert();
+            }
+
+            statusClass = "success";
+            attempts = 0;
+            $('#download').html('<a href="' + baseURL +  details.download + '" class="btn btn-large btn-primary">Download App</a>');
+        }    
+        else{
+            $('#download').html('');
+        }
+
+        $('#status').html('<span class="label label-'+statusClass+'">' + details.status + '</span>');
+    }
+
+    // this function should parse responses.. you can do anything you need..
+    // you can make it general so it would parse all the responses the page receives based on a response field
+    function parseRequest(response)
+    {
+        try // try to output this to the javascript console
+        {
+            var results =getPlatformInfo(response,determinePlatform());
+            populateDetails(results);
+
+            console.log(results.status);
+            if (results.status == "pending"){
+                console.log("Scheduling another attempt");
+                attempts = attempts + 1;
+                setTimeout("callTheJsonp()", 1000);
+            }
+
+        }
+        catch(an_exception) // alert for the users that don't have a javascript console
+        {
+            alert(an_exception);
+        }
+    }
+
+    // Show a custom alert
+    //
+    function showAlert() {
+
+
+        if(typeof(device) != "undefined"){
+            navigator.notification.alert(
+                'Proejct ready!',  // message
+                null,         // callback
+                'PhoneGap Build ',            // title
+                'Ok!'                  // buttonName
+            );
+        }
+        else{
+            alert('Project Ready!')
+        }
+
+       
+    }
+
+
+    </script>
+  </head>
+ <body>
+
+  <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
+
+           <div class="nav-collapse">
+            <ul class="nav">
+                <li class="">
+                <a href="./list.html">Project List</a>
+                </li>
+                
+            </ul>
+          </div>
+          <a class="btn pull-right" href="./clear.html">Logout</a>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+        <table class="table table-bordered">
+            <tr><th>Title</th><td id="title"></td></tr>
+            <tr><th>Description</th><td id="description"></td></tr>
+            <tr><th>Platform</th><td id="platform"></td></tr>
+            <tr><th>Status</th><td id="status"></td></tr>
+            <tr><th>Attempts</th><td id="attempts"></td></tr>
+            <tr><th>Download</th><td id="download"></td></tr>
+        </table>    
+
+        <button class="btn btn-large" onclick="callTheJsonp()">Refresh Status</button>
+    </div> 
+  </body>
+</html>
+
+
+

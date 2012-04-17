@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+    <widget xmlns   = "http://www.w3.org/ns/widgets"
+        xmlns:gap   = "http://phonegap.com/ns/1.0"
+        id          = "com.terrenceryan.pgbwatcher"
+        versionCode = "10" 
+        version     = "1.0.0">
+
+    <name>PhoneGap Build Watcher</name>
+
+    <description>
+        An application for watching an application on PhoneGap Build to see if it is rebuilt.
+    </description>
+
+    <author href="https://terrenceryan.com" email="terry@terrenceryan.com">
+        Terry Ryan
+    </author>
+
+    <!-- default icon-->
+   <!--  <icon src="icons/icon86.png" default="true" /> -->
+
+    <!-- iOS icons-->
+   <!--  <icon src="icons/icon57.png" width="57" height="57"/>
+    <icon src="icons/icon72.png" width="72" height="72"/> -->
+
+    <!-- Android icons -->
+   <!--  <icon src="icons/icon36.png" width="36" height="36"/>
+    <icon src="icons/icon48.png" width="48" height="48"/>
+    <icon src="icons/icon72.png" width="72" height="72"/>
+
+
+
+    <gap:splash src="splash/splash.png" /> -->
+
+    <feature name="http://api.phonegap.com/1.0/notification"/>
+
+</widget>

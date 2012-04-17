@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Build Watcher</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
@@ -8,24 +8,17 @@
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8">
 
-    var attempts = 0;
-    var baseURL = "https://build.phonegap.com";
-    var appApiPath = "/api/v1/apps/";
 
     $(document).ready(function() {
-      if (localStorage.getItem("username")){
-        window.location.href = "list.html";
-      }
-      else{
-        window.location.href = "login.html";
-      }
+      localStorage.clear();
+      window.location.href = "login.html";
     });
 
 
     </script>
-</head>
-<body>
-</body>
+  </head>
+  <body>
+  </body>
 </html>
 
 

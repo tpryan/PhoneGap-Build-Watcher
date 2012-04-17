@@ -1,2 +1,6 @@
 
 creds.js
+
+.DS_Store
+
+build.properties
