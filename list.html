@@ -6,8 +6,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
-    <script src="http://debug.phonegap.com/target/target-script-min.js#pgbwatcher"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/webtoolkit.base64.js"></script>
 
     <script type="text/javascript">
 
@@ -15,6 +15,12 @@
     var appApiPath = "/api/v1/apps/";
     var username = localStorage.getItem("username");
     var password = localStorage.getItem("password");
+
+  function make_basic_auth(user, password) {
+    var tok = user + ':' + password;
+    var hash = Base64.encode(tok);
+    return "Basic " + hash;
+  }
 
     $(document).ready(function() {
       console.log("Ready");
@@ -24,15 +30,19 @@
 
     function callTheJsonp()
     {
+
       console.log("Calling the JSON");
+
+        var auth = make_basic_auth(username,password);
         $.ajax({
           url: baseURL + appApiPath,
-          dataType: 'jsonp',
-          username: username,
-          password: password,
-          jsonpCallback: parseRequest,
-          success: parseRequest 
-          
+          type:"get",
+          success: parseRequest,
+          headers:{
+              "Authorization": make_basic_auth(username,password)
+          },       
+          cache:false,
+          crossDomain:true
         });
 
     }
@@ -82,6 +92,6 @@
       </ul> 
     </div>
 
-	
+  
 </body>
 </html>
