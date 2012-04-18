@@ -24,26 +24,31 @@
 
     function callTheJsonp()
     {
-      console.log("Calling the Ajax");
+      console.log("Calling the JSON");
         $.ajax({
           url: baseURL + appApiPath,
           dataType: 'jsonp',
           username: username,
           password: password,
-          success: parseRequest
+          jsonpCallback: parseRequest,
+          success: parseRequest 
+          
         });
 
+    }
+
+    function errorHandler(error){
+      alert("We have a problem.");
     }
 
     // this function should parse responses.. you can do anything you need..
     // you can make it general so it would parse all the responses the page receives based on a response field
     function parseRequest(response)
     {
-       console.log("Page returned");
-       
+      console.log("Response coming back.");
         try // try to output this to the javascript console
         {
-          console.log(response);  
+           
             for (var i=0; i < response.apps.length; i++){
               $('#applist').append('<li><a class="btn btn-large" href="project.html?id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
             }
