@@ -110,6 +110,9 @@
                 attempts = attempts + 1;
                 setTimeout("callTheJsonp()", 1000);
             }
+            else{
+                setTimeout("callTheJsonp()", 10000);
+            }
 
         }
         catch(an_exception) // alert for the users that don't have a javascript console
@@ -130,12 +133,26 @@
                 'PhoneGap Build ',            // title
                 'Ok!'                  // buttonName
             );
+
+
+            playBeep();
+            vibrate();
         }
         else{
             alert('Project Ready!')
         }
 
        
+    }
+
+    function playBeep() {
+        navigator.notification.beep(3);
+    }
+
+    // Vibrate for 2 seconds
+    //
+    function vibrate() {
+        navigator.notification.vibrate(1000);
     }
 
 
