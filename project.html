@@ -56,13 +56,16 @@
         if (platform == "Not a supported platform"){
             urlPlatform = "android";
         }
+         if (platform == "iPad" || platform == "iPhone"  || platform == "iPod"){
+            urlPlatform = "ios";
+        }
 
         var result = new Object();
         result['download'] = response.download[urlPlatform];
         result['status'] = response.status[urlPlatform];
         result['title'] = response.title;
         result['description'] = response.description;
-        result['platform'] = platform;
+        result['platform'] = platform + " (" + urlPlatform + ")";
 
         return result;
     }
@@ -86,7 +89,7 @@
 
             statusClass = "success";
             attempts = 0;
-            $('#download').html('<a href="' + baseURL +  details.download + '" class="btn btn-large btn-primary">Download App</a>');
+            $('#download').html('<a href="' + baseURL +  details.download + '" class="btn btn-large btn-primary" target="_blank">Download App</a>');
         }    
         else{
             $('#download').html('');
