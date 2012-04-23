@@ -108,12 +108,14 @@
             if (attempts > 0){
                 showAlert();
             }
-
+            $('#attempts').html('<span class="label label-success">complete</span>');
             statusClass = "success";
             attempts = 0;
             $('#downloadbtn').attr("href" ,baseURL +  details.download);
         }    
         else{
+            $('#attempts').html('Waiting for rebuild <i class="icon-cog status-indicator"></i> ' + attempts);
+            
             $('#download').html('');
         }
 
