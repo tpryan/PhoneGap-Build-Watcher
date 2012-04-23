@@ -18,11 +18,11 @@
 
     $(document).ready(function() {
       console.log("Ready");
-      callTheJsonp();
+      getProjectList();
     });
 
 
-    function callTheJsonp()
+    function getProjectList()
     {
 
       console.log("Calling the JSON");
@@ -48,10 +48,16 @@
       console.log("Response coming back.");
         try // try to output this to the javascript console
         {
-           
-            for (var i=0; i < response.apps.length; i++){
-              $('#applist').append('<li><a class="btn btn-large" href="project.html?id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
-            }
+          
+          $('#applist').html("");
+          if (response.apps.length == 0){
+             $('#applist').append('<li>You currently have no projects</li>');
+          }
+
+
+          for (var i=0; i < response.apps.length; i++){
+            $('#applist').append('<li><a class="btn btn-large" href="project.html?id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
+          }
 
 
         }
@@ -78,7 +84,7 @@
 
     <div class="container">
       <ul id="applist">
-
+        <li>Getting projects <i class="icon-cog status-indicator"></i></li>
       </ul> 
     </div>
 
