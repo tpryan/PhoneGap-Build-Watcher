@@ -15,12 +15,24 @@
     var appApiPath = "/api/v1/apps/";
     var token = localStorage.getItem("token");
     var id = getURLParameter("id");
+    
+    var platform = "";
     var urlPlatform = "";
+
+    document.addEventListener("deviceready", setDeviceInfo, false);
 
 
     $(document).ready(function() {
-      getProjectDetails();
+        platform = determinePlatform();
+        urlPlatform = determineURLPlatform(platform);
+        getProjectDetails();
     });
+
+    function setDeviceInfo(){
+        platform = determinePlatform();
+        urlPlatform = determineURLPlatform(platform);
+        getProjectDetails();
+    }
 
 
     function getProjectDetails()
@@ -64,18 +76,22 @@
         }
     }
 
-    function getPlatformInfo(response,platform){
-        urlPlatform = platform.toLowerCase();
+    function determineURLPlatform(platform){
+        var urlPlatform = platform.toLowerCase();
+        
         if (platform == "Not a supported platform"){
             urlPlatform = "android";
         }
         if (platform == "iPad" || platform == "iPhone"  || platform == "iPod"){
             urlPlatform = "ios";
         }
+        return urlPlatform;
+    }
 
-        var result = new Object();
+    function getPlatformInfo(response,platform){
         
 
+        var result = new Object();
 
         if (urlPlatform == "ios"){
             result['download'] = "/apps/" + response['id'] + "/download/ios";
@@ -94,10 +110,6 @@
 
     function populateDetails(details){
         var statusClass = "warning";
-
-
-
-
         $('#title').html(details.title);
         $('#description').html(details.description);
         $('#platform').html(details.platform);
