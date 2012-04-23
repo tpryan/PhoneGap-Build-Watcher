@@ -19,14 +19,12 @@
 
 
     $(document).ready(function() {
-      callTheJsonp();
+      getProjectDetails();
     });
 
 
-    function callTheJsonp()
+    function getProjectDetails()
     {
-
-
         $.ajax({
           url: baseURL + appApiPath + id + "?auth_token=" + token,
           type:"get",
@@ -34,23 +32,20 @@
           cache:false,
           crossDomain:true
         });
-
     }
 
     function rebuild()
     {
 
         $.ajax({
-          url: baseURL + appApiPath + id + "/build/",
+          url: baseURL + appApiPath + id + "/build/" + "?auth_token=" + token,
           type: 'POST',
-          username: username,
-          password: password,
           success: handleReBuildSuccess
         });
 
     }
     function handleReBuildSuccess(response){
-        callTheJsonp();
+        getProjectDetails();
     }
 
 
@@ -138,11 +133,11 @@
             if (results.status == "pending"){
                 console.log("Scheduling another attempt");
                 attempts = attempts + 1;
-                setTimeout("callTheJsonp()", 1000);
+                setTimeout("getProjectDetails()", 1000);
                 $('#downloadbtn').addClass("transparent");
             }
             else{
-                setTimeout("callTheJsonp()", 10000);
+                setTimeout("getProjectDetails()", 10000);
                 $('#downloadbtn').removeClass("transparent");
             }
 
@@ -220,7 +215,7 @@
 
         <ul id="actionlist">
             <li><a href="" id="downloadbtn" class="btn btn-large btn-primary transparent" target="_blank">Download App</a></li>
-            <li><button class="btn btn-large" onclick="callTheJsonp()">Refresh Status</button></li>
+            <li><button class="btn btn-large" onclick="getProjectDetails()">Refresh Status</button></li>
             <li><button class="btn btn-large" onclick="rebuild()">Rebuild App</button></li>
         </ul>
     </div> 
