@@ -23,9 +23,7 @@
           console.log("Login Attempted");
           var username = $('#username').val();
           var password = $('#password').val();
-
           console.log(username);
-          
           testLogin(username, password);
          
       	});
@@ -40,17 +38,8 @@
 
     function testLogin(username, password ){
       console.log("Login Test started");
-
-       // $.ajax({
-       //    url: baseURL + appApiPath,
-       //    type:"POST",
-       //    success: handleSuccess,
-       //    error: errorHandler,
-       //    username: username,
-       //    password: password,       
-       //    cache:false,
-       //    crossDomain:true
-       //  });
+      $('#message').html('Attempting login <i class="icon-cog status-indicator"></i>' );
+      $('#message').addClass('label-info');
 
         $.ajax({
           url: baseURL + appApiPath,
@@ -78,8 +67,9 @@
     }
 
     function errorHandler(error){
+      $('#message').removeClass('label-info');
       $('#message').addClass('label-warning');
-      $('#message').html("Couldn't find that username/password combo." );
+      $('#message').html("Check your username and password." );
       console.log("Login Error");
       console.log(error);
     }
@@ -99,9 +89,9 @@
 
     <div class="container">
 		<form id="login" class="well">
-      <p id="message" class="label">Login with your PhoneGap Build Credentials</p>
+      <p id="message" class="label">Login with your PhoneGap Build Details.</p>
 			<label for="username">Username:</label>
-			<input type="text" name="username" id="username" />
+			<input type="email" name="username" id="username" />
 
 			<label for="password">Password:</label>
 			<input type="password" name="password" id="password" />
