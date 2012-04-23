@@ -1,6 +1,10 @@
 body{
 	padding-top: 60px;
 }
+label{
+		font-weight: bold;
+		
+	}
 
 #applist{
 	list-style: none;
@@ -28,13 +32,12 @@ body{
 	width: 80%;
 }
 
-#actionlist li a.btn-larg, #actionlist li button.btn-large{
-	
-	width: 100%;
-}
 
 #downloadbtn{
 	-webkit-transition: opacity .7 ease-in; /* easeInOutQuad */
+}
+
+#reloadbtn, #rebuildbtn, #downloadbtn{
 	width: 100%;
 }
 
@@ -61,6 +64,10 @@ body{
 
 }
 
+.navbar-inner .btn{
+	margin-right: 10px;
+}
+
 @media (max-width:985px) {
 	body{
 		padding-top: 0;
@@ -73,12 +80,37 @@ body{
 		width: 100%;
 		padding-right: 0px;
 		margin-right: 5px;
+		height: 40px;
 
+	}
+
+	#message{
+		margin-right: 0;
+		height: 25px;
+		line-height: 25px;
 	}
 
 	#loginsubmit{
 		width: 100%;
-		margin-right: 0px;
+		height: 40px;
 	}
+
+	#username, #password{
+		width: 100%;
+		font-size: 20px;
+	}
+
+
+
+
+}
+
+@media (max-width:446px) {
+	.listtext{
+		display:none;
+	}
+
+
+
 
 }

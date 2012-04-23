@@ -48,12 +48,13 @@
 
     function rebuild()
     {
-
+        event.preventDefault();
         $.ajax({
           url: baseURL + appApiPath + id + "/build/" + "?auth_token=" + token,
           type: 'POST',
           success: handleReBuildSuccess
         });
+        return false;
 
     }
     function handleReBuildSuccess(response){
@@ -148,11 +149,14 @@
                 console.log("Scheduling another attempt");
                 attempts = attempts + 1;
                 setTimeout("getProjectDetails()", 1000);
-                $('#downloadbtn').addClass("transparent");
+                //$('#downloadbtn').addClass("transparent");
+                $('#downloadbtn').addClass("disabled");
+                $('#downloadbtn').removeClass("btn-primary");
             }
             else{
                 setTimeout("getProjectDetails()", 10000);
-                $('#downloadbtn').removeClass("transparent");
+                $('#downloadbtn').removeClass("disabled");
+                $('#downloadbtn').addClass("btn-primary");
             }
 
         }
@@ -196,6 +200,12 @@
         navigator.notification.vibrate(1000);
     }
 
+    function checkDownload() {
+        if ($('#downloadbtn').attr("class").indexOf("disabled") >= 0){
+            event.preventDefault();
+            return false;
+        }
+    }
 
     </script>
   </head>
@@ -204,15 +214,9 @@
   <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
-
-            <ul class="nav">
-                <li class="">
-                <a href="./list.html">Project List</a>
-                </li>
-                
-            </ul>
-          <a class="btn pull-right" href="./clear.html">Logout</a>
+            <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
+            <a class="btn pull-right" href="./clear.html"><i class="icon-lock"></i> <span class="listtext">Logout</span></a>
+            <a href="./list.html" class="btn pull-right" ><i class="icon-list"></i> <span class="listtext">Project List</span></a>
 
         </div>
       </div>
@@ -228,9 +232,9 @@
         </table>    
 
         <ul id="actionlist">
-            <li><a href="" id="downloadbtn" class="btn btn-large btn-primary transparent" target="_blank">Download App</a></li>
-            <li><button class="btn btn-large" onclick="getProjectDetails()">Refresh Status</button></li>
-            <li><button class="btn btn-large" onclick="rebuild()">Rebuild App</button></li>
+            <li><a href="" id="downloadbtn" class="btn btn-large  disabled" onclick="checkDownload()" target="_blank">Download App</a></li>
+            <li><a href="" id="reloadbtn" class="btn btn-large" onclick="getProjectDetails()">Refresh Status</a></li>
+            <li><a href="" id="rebuildbtn" class="btn btn-large" onclick="rebuild()">Rebuild App</a></li>
         </ul>
     </div> 
   </body>
