@@ -29,7 +29,10 @@
 
 
 
-    <gap:splash src="splash/splash.png" />
+    <gap:splash src="splash/splash_base.png"/>
+    <gap:splash src="splash/splash_retina.png" width="640" height="960"/>
+    <gap:splash src="splash/splash_ipad_portrait.png" width="768" height="1004"/>
+    <gap:splash src="splash/splash_ipad_landscape.png" width="1024" height="748"/>
 
     <feature name="http://api.phonegap.com/1.0/notification"/>
     <access origin="https://build.phonegap.com" browserOnly="true" />
