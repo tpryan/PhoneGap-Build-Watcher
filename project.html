@@ -13,9 +13,9 @@
     var attempts = 0;
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/apps/";
-    var username = localStorage.getItem("username");
-    var password = localStorage.getItem("password");
+    var token = localStorage.getItem("token");
     var id = getURLParameter("id");
+    var urlPlatform = "";
 
 
     $(document).ready(function() {
@@ -26,15 +26,33 @@
     function callTheJsonp()
     {
 
+
         $.ajax({
-          url: baseURL + appApiPath + id,
-          dataType: 'jsonp',
-          username: username,
-          password: password,
-          success: parseRequest
+          url: baseURL + appApiPath + id + "?auth_token=" + token,
+          type:"get",
+          success: parseRequest,
+          cache:false,
+          crossDomain:true
         });
 
     }
+
+    function rebuild()
+    {
+
+        $.ajax({
+          url: baseURL + appApiPath + id + "/build/",
+          type: 'POST',
+          username: username,
+          password: password,
+          success: handleReBuildSuccess
+        });
+
+    }
+    function handleReBuildSuccess(response){
+        callTheJsonp();
+    }
+
 
     function getURLParameter(name) {
         return decodeURIComponent(
@@ -52,16 +70,25 @@
     }
 
     function getPlatformInfo(response,platform){
-        var urlPlatform = platform.toLowerCase();
+        urlPlatform = platform.toLowerCase();
         if (platform == "Not a supported platform"){
             urlPlatform = "android";
         }
-         if (platform == "iPad" || platform == "iPhone"  || platform == "iPod"){
+        if (platform == "iPad" || platform == "iPhone"  || platform == "iPod"){
             urlPlatform = "ios";
         }
 
         var result = new Object();
-        result['download'] = response.download[urlPlatform];
+        
+
+
+        if (urlPlatform == "ios"){
+            result['download'] = "/apps/" + response['id'] + "/download/ios";
+        }
+        else{
+            result['download'] = response.download[urlPlatform];
+        }
+
         result['status'] = response.status[urlPlatform];
         result['title'] = response.title;
         result['description'] = response.description;
@@ -89,7 +116,7 @@
 
             statusClass = "success";
             attempts = 0;
-            $('#download').html('<a href="' + baseURL +  details.download + '" class="btn btn-large btn-primary" target="_blank">Download App</a>');
+            $('#downloadbtn').attr("href" ,baseURL +  details.download);
         }    
         else{
             $('#download').html('');
@@ -112,9 +139,11 @@
                 console.log("Scheduling another attempt");
                 attempts = attempts + 1;
                 setTimeout("callTheJsonp()", 1000);
+                $('#downloadbtn').addClass("transparent");
             }
             else{
                 setTimeout("callTheJsonp()", 10000);
+                $('#downloadbtn').removeClass("transparent");
             }
 
         }
@@ -187,10 +216,13 @@
             <tr><th>Platform</th><td id="platform"></td></tr>
             <tr><th>Status</th><td id="status"></td></tr>
             <tr><th>Attempts</th><td id="attempts"></td></tr>
-            <tr><th>Download</th><td id="download"></td></tr>
         </table>    
 
-        <button class="btn btn-large" onclick="callTheJsonp()">Refresh Status</button>
+        <ul id="actionlist">
+            <li><a href="" id="downloadbtn" class="btn btn-large btn-primary transparent" target="_blank">Download App</a></li>
+            <li><button class="btn btn-large" onclick="callTheJsonp()">Refresh Status</button></li>
+            <li><button class="btn btn-large" onclick="rebuild()">Rebuild App</button></li>
+        </ul>
     </div> 
   </body>
 </html>

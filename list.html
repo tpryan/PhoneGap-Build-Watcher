@@ -13,14 +13,8 @@
 
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/apps/";
-    var username = localStorage.getItem("username");
-    var password = localStorage.getItem("password");
+    var token = localStorage.getItem("token");
 
-  function make_basic_auth(user, password) {
-    var tok = user + ':' + password;
-    var hash = Base64.encode(tok);
-    return "Basic " + hash;
-  }
 
     $(document).ready(function() {
       console.log("Ready");
@@ -33,14 +27,10 @@
 
       console.log("Calling the JSON");
 
-        var auth = make_basic_auth(username,password);
         $.ajax({
-          url: baseURL + appApiPath,
+          url: baseURL + appApiPath + "?auth_token=" + token,
           type:"get",
           success: parseRequest,
-          headers:{
-              "Authorization": make_basic_auth(username,password)
-          },       
           cache:false,
           crossDomain:true
         });

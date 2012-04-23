@@ -8,10 +8,23 @@
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8">
+    //TODO: Figure out why shit is broke.
+    // Use an ajax call to this url to log off user:
+    // https://build.phonegap.com/people/sign_out
 
 
     $(document).ready(function() {
       localStorage.clear();
+
+      $.ajax({
+          url: "https://build.phonegap.com/people/sign_out",
+          type:"get",
+          cache:false,
+          crossDomain:true
+        });
+
+      //jQuery(document).empty();
+      //window.location.replace('/login.html');
       window.location.href = "login.html";
     });
 

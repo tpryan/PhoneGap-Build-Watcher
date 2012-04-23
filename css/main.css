@@ -12,14 +12,55 @@ body{
 	padding-bottom: 20px;
 }
 
-#applist li a.btn-large{
-	
+#applist li a.btn-large, #applist li button.btn-large{
+	width: 95%;
+}
+
+#actionlist{
+	list-style: none;
+	margin-left: 0;
+}
+
+#actionlist li{
+	display: block;
+	padding-bottom: 20px;
+	margin-left: 0;
 	width: 80%;
+}
+
+#actionlist li a.btn-larg, #actionlist li button.btn-large{
+	
+	width: 100%;
+}
+
+#downloadbtn{
+	-webkit-transition: opacity .7 ease-in; /* easeInOutQuad */
+	width: 100%;
+}
+
+.transparent{
+	opacity: 0;
+	
 }
 
 @media (max-width:985px) {
 	body{
 		padding-top: 0;
+	}
+
+}
+
+@media (max-width:800px) {
+	input{
+		width: 100%;
+		padding-right: 0px;
+		margin-right: 5px;
+
+	}
+
+	#loginsubmit{
+		width: 100%;
+		margin-right: 0px;
 	}
 
 }

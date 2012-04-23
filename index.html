@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+     <script src="http://debug.phonegap.com/target/target-script-min.js#pgbw"></script>
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8">
@@ -14,7 +15,7 @@
     var appApiPath = "/api/v1/apps/";
 
     $(document).ready(function() {
-      if (localStorage.getItem("username")){
+      if (localStorage.getItem("token")){
         window.location.href = "list.html";
       }
       else{
