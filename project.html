@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
-     <link href="css/main.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
@@ -14,8 +14,9 @@
     var attempts = 0;
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/apps/";
-    var token = localStorage.getItem("token");
-    var id = getURLParameter("id");
+    var token = "";
+    var id = "";
+    var lastStatus = "";
     
     var platform = "";
     var urlPlatform = "";
@@ -28,6 +29,8 @@
     }
 
     function init(){
+        token = localStorage.getItem("token");
+        id = getURLParameter("id");
         platform = determinePlatform();
         urlPlatform = determineURLPlatform(platform);
         getProjectDetails();
@@ -69,11 +72,7 @@
     }
 
 
-    function getURLParameter(name) {
-        return decodeURIComponent(
-            (location.search.match(RegExp("[?|&]"+name+'=(.+?)(&|$)'))||[,null])[1]
-        );  
-    }
+    
 
     function determinePlatform(){
         if(typeof(device) != "undefined"){
@@ -96,7 +95,7 @@
         return urlPlatform;
     }
 
-    function getPlatformInfo(response,platform){
+    function getProjectInfo(response,platform){
         
 
         var result = new Object();
@@ -122,24 +121,29 @@
         $('#description').html(details.description);
         $('#platform').html(details.platform);
         
-        $('#attempts').html(attempts);
-        if (details.status == "complete"){
+        $('#attemptcount').html(attempts);
 
-            if (attempts > 0){
-                showAlert();
+        if(lastStatus != details.status){
+            if (details.status == "complete"){
+
+                if (attempts > 0){
+                    showAlert();
+                }
+                $('#attempts').html('<span class="label label-success">complete</span>');
+                statusClass = "success";
+                attempts = 0;
+                $('#downloadbtn').attr("href" ,baseURL +  details.download);
+            }    
+            else{
+                $('#attempts').html('Waiting for rebuild <i class="icon-cog status-indicator"></i> <span id="attemptcount">' + attempts + '</span>');
+                $('#download').html('');
             }
-            $('#attempts').html('<span class="label label-success">complete</span>');
-            statusClass = "success";
-            attempts = 0;
-            $('#downloadbtn').attr("href" ,baseURL +  details.download);
-        }    
-        else{
-            $('#attempts').html('Waiting for rebuild <i class="icon-cog status-indicator"></i> ' + attempts);
-            
-            $('#download').html('');
+
+            $('#status').html('<span class="label label-'+statusClass+'">' + details.status + '</span>');
         }
 
-        $('#status').html('<span class="label label-'+statusClass+'">' + details.status + '</span>');
+        
+        lastStatus = details.status;
     }
 
     // this function should parse responses.. you can do anything you need..
@@ -148,7 +152,7 @@
     {
         try // try to output this to the javascript console
         {
-            var results =getPlatformInfo(response,determinePlatform());
+            var results =getProjectInfo(response,determinePlatform());
             populateDetails(results);
 
             console.log(results.status);
@@ -156,7 +160,6 @@
                 console.log("Scheduling another attempt");
                 attempts = attempts + 1;
                 setTimeout("getProjectDetails()", 1000);
-                //$('#downloadbtn').addClass("transparent");
                 $('#downloadbtn').addClass("disabled");
                 $('#downloadbtn').removeClass("btn-primary");
             }

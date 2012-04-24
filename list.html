@@ -13,7 +13,7 @@
 
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/apps/";
-    var token = localStorage.getItem("token");
+    var token = "";
 
 
     if (isInPhoneGap()){
@@ -25,6 +25,7 @@
 
     function init(){
       console.log("Ready");
+      token = localStorage.getItem("token");
       getProjectList();
     }
 
@@ -63,7 +64,7 @@
 
 
           for (var i=0; i < response.apps.length; i++){
-            $('#applist').append('<li><a class="btn btn-large" href="project.html?id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
+            $('#applist').append('<li><a class="btn btn-large" href="project.html#id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
           }
 
 

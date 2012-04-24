@@ -1,4 +1,4 @@
-$.support.cors = true;
+jQuery.support.cors = true;
 
 
 function isInPhoneGap(){
@@ -10,3 +10,6 @@ function isInPhoneGap(){
   }
 }
 
+function getURLParameter(name) {
+  return location.toString().split('=')[1];
+}
