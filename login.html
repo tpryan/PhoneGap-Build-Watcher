@@ -8,6 +8,7 @@
     <link href="css/main.css" rel="stylesheet">
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/webtoolkit.base64.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
 
 
 
@@ -16,18 +17,25 @@
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/me";
 
-    $(document).ready(function() {
+    if (isInPhoneGap()){
+      document.addEventListener("deviceready", init, false);
+    }
+    else{
+      $(document).ready(init);
+    }
+
+    function init(){
       console.log("Page Started");
       $('#login').submit( function(){
-   	     	event.preventDefault();
+          event.preventDefault();
           console.log("Login Attempted");
           var username = $('#username').val();
           var password = $('#password').val();
           console.log(username);
           testLogin(username, password);
          
-      	});
-    });
+        };
+    }
 
 
     function storeCredentials(username, password, token){

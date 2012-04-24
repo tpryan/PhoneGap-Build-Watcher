@@ -8,6 +8,7 @@
      <link href="css/main.css" rel="stylesheet">
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
     <script type="text/javascript" charset="utf-8">
 
     var attempts = 0;
@@ -19,14 +20,20 @@
     var platform = "";
     var urlPlatform = "";
 
-    document.addEventListener("deviceready", setDeviceInfo, false);
+    if (isInPhoneGap()){
+      document.addEventListener("deviceready", init, false);
+    }
+    else{
+      $(document).ready(init);
+    }
 
-
-    $(document).ready(function() {
+    function init(){
         platform = determinePlatform();
         urlPlatform = determineURLPlatform(platform);
         getProjectDetails();
-    });
+    }
+
+
 
     function setDeviceInfo(){
         platform = determinePlatform();

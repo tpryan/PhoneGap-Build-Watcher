@@ -8,7 +8,7 @@
     <link href="css/main.css" rel="stylesheet">
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/webtoolkit.base64.js"></script>
-
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>    
     <script type="text/javascript">
 
     var baseURL = "https://build.phonegap.com";
@@ -16,10 +16,17 @@
     var token = localStorage.getItem("token");
 
 
-    $(document).ready(function() {
+    if (isInPhoneGap()){
+      document.addEventListener("deviceready", init, false);
+    }
+    else{
+      $(document).ready(init);
+    }
+
+    function init(){
       console.log("Ready");
       getProjectList();
-    });
+    }
 
 
     function getProjectList()
