@@ -9,7 +9,7 @@
 
 	<target name="deployToPGB" depends="build,zip,uploadFilesToPGB" description="Sending Files to Phone Gap Build" />
 
-	<target name="deployToAndroid" depends="deployToPGB, installOnToAndroidDevice" description="Sending Files to Phone Gap Build" />
+	<target name="deployToAndroid" depends="deployToPGB, installOnToAndroidDevice, notify" description="Sending Files to Phone Gap Build" />
 
 
 	<target name="test.ant" description="Exports the script of the database ">
@@ -126,5 +126,13 @@
 
 		
 	</target>
+
+	<target name="notify" description="Plays an audio file">
+		<echo message="Playing Audio Alert"/>
+		<exec executable='afplay' failonerror='true'>
+			<arg value='beep.wav'/>
+		</exec>
+	</target>
+
 
 </project>	
