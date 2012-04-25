@@ -20,12 +20,14 @@
           url: "https://build.phonegap.com/people/sign_out",
           type:"get",
           cache:false,
+          success: function(response){console.log(response);},
+          error: function(error){console.log(error);},
           crossDomain:true
         });
 
       //jQuery(document).empty();
       //window.location.replace('/login.html');
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     });
 
 

@@ -8,13 +8,15 @@
     <link href="css/main.css" rel="stylesheet">
     <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/webtoolkit.base64.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/main.js"></script>
     <script type="text/javascript" charset="utf-8">
 
     var attempts = 0;
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/apps/";
-    var token = "";
+    var username = "";
+    var password = "";
     var id = "";
     var lastStatus = "";
     
@@ -29,7 +31,8 @@
     }
 
     function init(){
-        token = localStorage.getItem("token");
+        username = localStorage.getItem("username");
+        password = localStorage.getItem("password");
         id = getURLParameter("id");
         platform = determinePlatform();
         urlPlatform = determineURLPlatform(platform);
@@ -47,23 +50,40 @@
 
     function getProjectDetails()
     {
+
         $.ajax({
-          url: baseURL + appApiPath + id + "?auth_token=" + token,
-          type:"get",
-          success: parseRequest,
-          cache:false,
-          crossDomain:true
+            url: baseURL + appApiPath + id,
+            success: parseRequest, 
+            type:"get",
+            error: errorHandler,
+            headers:{
+                "Authorization": make_basic_auth(username,password)
+            },       
+            cache:false,
+            crossDomain:true
         });
+
+    }
+
+    function errorHandler(error){
+      alert("We have a problem.");
     }
 
     function rebuild()
     {
         event.preventDefault();
         $.ajax({
-          url: baseURL + appApiPath + id + "/build/" + "?auth_token=" + token,
-          type: 'POST',
-          success: handleReBuildSuccess
+            url: baseURL + appApiPath + id + "/build/" ,
+            success: parseRequest, 
+            type:"POST",
+            error: errorHandler,
+            headers:{
+                "Authorization": make_basic_auth(username,password)
+            },       
+            cache:false,
+            crossDomain:true
         });
+
         return false;
 
     }
@@ -152,7 +172,9 @@
     {
         try // try to output this to the javascript console
         {
+            console.log("Getting Project details");
             var results =getProjectInfo(response,determinePlatform());
+            console.log("Populating UI");
             populateDetails(results);
 
             console.log(results.status);
@@ -172,6 +194,8 @@
         }
         catch(an_exception) // alert for the users that don't have a javascript console
         {
+            console.log(response);
+            console.log(an_exception);
             alert(an_exception);
         }
     }

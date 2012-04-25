@@ -6,6 +6,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/webtoolkit.base64.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/main.js"></script>    
@@ -13,7 +14,8 @@
 
     var baseURL = "https://build.phonegap.com";
     var appApiPath = "/api/v1/apps/";
-    var token = "";
+    var username = "";
+    var password = "";
 
 
     if (isInPhoneGap()){
@@ -25,23 +27,27 @@
 
     function init(){
       console.log("Ready");
-      token = localStorage.getItem("token");
+      username = localStorage.getItem("username");
+      password = localStorage.getItem("password");
       getProjectList();
     }
-
 
     function getProjectList()
     {
 
       console.log("Calling the JSON");
 
-        $.ajax({
-          url: baseURL + appApiPath + "?auth_token=" + token,
-          type:"get",
-          success: parseRequest,
-          cache:false,
-          crossDomain:true
-        });
+      $.ajax({
+        url: baseURL + appApiPath,
+        success: parseResponse, 
+        type:"get",
+        error: errorHandler,
+        headers:{
+            "Authorization": make_basic_auth(username,password)
+        },       
+        cache:false,
+        crossDomain:true
+      });
 
     }
 
@@ -51,20 +57,21 @@
 
     // this function should parse responses.. you can do anything you need..
     // you can make it general so it would parse all the responses the page receives based on a response field
-    function parseRequest(response)
+    function parseResponse(response)
     {
       console.log("Response coming back.");
-        try // try to output this to the javascript console
+        try 
         {
           
           $('#applist').html("");
+          
           if (response.apps.length == 0){
              $('#applist').append('<li>You currently have no projects</li>');
           }
 
-
           for (var i=0; i < response.apps.length; i++){
-            $('#applist').append('<li><a class="btn btn-large" href="project.html#id=' + response.apps[i].id +  '">' + response.apps[i].title + '</a></li>');
+            var app = response.apps[i];
+            $('#applist').append('<li><a class="btn btn-large" href="project.html#id=' + app.id + '">' + app.title + '</a></li>');
           }
 
 
@@ -74,28 +81,24 @@
             alert(an_exception);
         }
     }
-
-
     </script>
-
 </head>    
 <body>
 
   <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-            <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
-            <a class="btn pull-right" href="./clear.html"><i class="icon-lock"></i> <span class="listtext">Logout</span></a>
-        </div>
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
+        <a class="btn pull-right" href="./clear.html"><i class="icon-lock"></i> <span class="listtext">Logout</span></a>
       </div>
     </div>
+  </div>
 
-    <div class="container">
-      <ul id="applist">
-        <li>Getting projects <i class="icon-cog status-indicator"></i></li>
-      </ul> 
-    </div>
-
+  <div class="container">
+    <ul id="applist">
+      <li>Getting projects <i class="icon-cog status-indicator"></i></li>
+    </ul> 
+  </div>
   
 </body>
 </html>
