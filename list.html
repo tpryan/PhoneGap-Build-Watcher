@@ -20,12 +20,15 @@
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
-    }
-    else{
       $(document).ready(init);
     }
+    else{
 
-    function init(){
+      $(document).ready(init);
+
+    }
+
+    function init(){  
       console.log("Ready");
       username = localStorage.getItem("username");
       password = localStorage.getItem("password");
@@ -52,6 +55,7 @@
     }
 
     function errorHandler(error){
+      console.log(error);
       alert("We have a problem.");
     }
 

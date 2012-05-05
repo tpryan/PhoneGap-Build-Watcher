@@ -18,6 +18,7 @@
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
+      $(document).ready(init);
     }
     else{
       $(document).ready(init);

@@ -43,6 +43,6 @@ download=$(curl -L -s -u $creds -o $title.apk $APIPATH/$project/android);
 echo "Done. Now installing.";
 ##Install on Device
 $pathToDeviceInstaller uninstall $package
-$pathToDeviceInstaller install -r $projectPath/$title-debug.apk
+$pathToDeviceInstaller install -r $projectPath/$title.apk
 
 echo "Done.";
