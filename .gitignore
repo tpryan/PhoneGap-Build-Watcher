@@ -6,3 +6,5 @@ creds.js
 build.properties
 
 scripts/transporter_chief.rb
+
+phonegap.js
