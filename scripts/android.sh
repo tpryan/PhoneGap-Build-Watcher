@@ -38,7 +38,7 @@ done
 echo "Done. Now downloading.";
 
 ##Download File
-download=$(curl -L -s -u $creds -o $title-debug.apk $APIPATH/$project/android);
+download=$(curl -L -s -u $creds -o $title.apk $APIPATH/$project/android);
 
 echo "Done. Now installing.";
 ##Install on Device

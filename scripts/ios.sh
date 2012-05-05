@@ -38,9 +38,9 @@ done
 echo "Done. Now downloading.";
 
 ##Download File
-download=$(curl -L -s -u $creds -o $title-debug.ipa $APIPATH/$project/ios);
+download=$(curl -L -s -u $creds -o $title.ipa $APIPATH/$project/ios);
 
 echo "Done. Now installing.";
 ##Install on Device
-$pathToDeviceInstaller $projectPath/$title-debug.ipa
+$pathToDeviceInstaller $projectPath$title-debug.ipa
 echo "Done.";
