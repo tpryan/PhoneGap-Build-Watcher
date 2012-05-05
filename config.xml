@@ -5,7 +5,7 @@
         versionCode = "10" 
         version     = "1.0.0">
 
-    <name>PhoneGap Build Watcher</name>
+    <name>PGB Watcher</name>
 
     <description>
         An application for watching an application on PhoneGap Build to see if it is rebuilt.

@@ -4,3 +4,5 @@ creds.js
 .DS_Store
 
 build.properties
+
+scripts/transporter_chief.rb

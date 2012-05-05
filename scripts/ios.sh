@@ -3,6 +3,7 @@ project=$1;
 username=$2;
 password=$3;
 projectPath=$4;
+pathToDeviceInstaller=$5;
 
 APIPATH="https://build.phonegap.com/api/v1/apps";
 FILEPATH="https://build.phonegap.com/apps/";
@@ -26,19 +27,20 @@ package=$(echo $package|sed 's/"//g');
 echo "Done. ";
 
 echo "Waiting for rebuild to be done.";
-donecheck=$(curl -s -u $creds  $APIcall | grep -Po '"android":"complete"');	
+donecheck=$(curl -s -u $creds  $APIcall | grep -Po '"ios":"complete"');	
 while [$donecheck -eq ""]
 do
 	echo ".";
 	sleep 10;
-	donecheck=$(curl -s -u $creds  $APIcall | grep -Po '"android":"complete"');	
+	donecheck=$(curl -s -u $creds  $APIcall | grep -Po '"ios":"complete"');	
 	
 done
 echo "Done. Now downloading.";
 
 ##Download File
-download=$(curl -L -s -u $creds -o $title-debug.apk $APIPATH/$project/android);
+download=$(curl -L -s -u $creds -o $title-debug.ipa $APIPATH/$project/ios);
 
+echo "Done. Now installing.";
 ##Install on Device
-~/Downloads/android-sdk/platform-tools/adb uninstall $package
-~/Downloads/android-sdk/platform-tools/adb install -r $projectPath/$title-debug.apk
+$pathToDeviceInstaller $projectPath/$title-debug.ipa
+echo "Done.";
