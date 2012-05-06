@@ -2,8 +2,8 @@
     <widget xmlns   = "http://www.w3.org/ns/widgets"
         xmlns:gap   = "http://phonegap.com/ns/1.0"
         id          = "com.terrenceryan.pgbwatcher"
-        versionCode = "10" 
-        version     = "1.0.0">
+        versionCode = "11" 
+        version     = "1.0.1">
 
     <name>PGB Watcher</name>
 

@@ -25,6 +25,7 @@
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
+      $(document).ready(init);
     }
     else{
       $(document).ready(init);
@@ -55,7 +56,7 @@
             url: baseURL + appApiPath + id,
             success: parseRequest, 
             type:"get",
-            error: errorHandler,
+            error: networkErrorHandler,
             headers:{
                 "Authorization": make_basic_auth(username,password)
             },       
@@ -65,18 +66,21 @@
 
     }
 
-    function errorHandler(error){
-      alert("We have a problem.");
+    function networkErrorHandler(error){
+        event.preventDefault();
+        console.log(error);
+        //alert("We have a problem.");
     }
 
-    function rebuild()
-    {
+
+    function rebuild(event){   
+        console.log("Rebuild Started");
         event.preventDefault();
         $.ajax({
             url: baseURL + appApiPath + id + "/build/" ,
             success: parseRequest, 
             type:"POST",
-            error: errorHandler,
+            error: networkErrorHandler,
             headers:{
                 "Authorization": make_basic_auth(username,password)
             },       
@@ -87,6 +91,15 @@
         return false;
 
     }
+
+    function linkGetProjectDetails(event){
+        event.preventDefault();
+        console.log("Refresh Hit");
+        getProjectDetails();
+
+    }
+
+
     function handleReBuildSuccess(response){
         getProjectDetails();
     }
@@ -267,17 +280,17 @@
 
         <ul id="actionlist">
             <li>
-                <a href="" id="downloadbtn" class="btn btn-large  disabled" onclick="checkDownload()" target="_blank"> 
+                <a href="" id="downloadbtn" class="btn btn-large  disabled" onclick="checkDownload(event)" target="_blank"> 
                     <i class="icon-download icon-white"></i> Download App
                 </a>
             </li>
             <li>
-                <a href="" id="reloadbtn" class="btn btn-large" onclick="getProjectDetails()">
+                <a href="" id="reloadbtn" class="btn btn-large" onclick="linkGetProjectDetails(event);false;">
                     <i class="icon-repeat"></i> Refresh Status
                 </a>
             </li>
             <li>
-                <a href="" id="rebuildbtn" class="btn btn-large" onclick="rebuild()">
+                <a href="" id="rebuildbtn" class="btn btn-large" onclick="rebuild(event);false;">
                     <i class="icon-cog"></i> Rebuild Application
                 </a>
             </li>
