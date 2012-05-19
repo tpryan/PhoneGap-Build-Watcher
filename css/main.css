@@ -106,7 +106,7 @@ label{
 
 }
 
-@media (max-width:446px) {
+@media (max-width:500px) {
 	.listtext{
 		display:none;
 	}
@@ -114,6 +114,11 @@ label{
 		font-size: 16px;
 	}
 
+}
 
+@media (max-width:600px) {
+	#pageProject .listtext{
+		display:none;
+	}
 
 }

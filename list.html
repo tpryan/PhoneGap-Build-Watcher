@@ -37,6 +37,7 @@
 
     function getProjectList()
     {
+      $('#applist').append('<li>Getting projects <i class="icon-cog status-indicator"></i></li>');
 
       console.log("Calling the JSON");
 
@@ -44,7 +45,7 @@
         url: baseURL + appApiPath,
         success: parseResponse, 
         type:"get",
-        error: errorHandler,
+        error: netWorkErrorHandler,
         headers:{
             "Authorization": make_basic_auth(username,password)
         },       
@@ -59,6 +60,12 @@
       alert("We have a problem.");
     }
 
+    function netWorkErrorHandler(error){
+      console.log(error);
+      $('#applist').html("");
+      $('#applist').append('<li class="label label-warning">Cannot connect to Build. Check your network connectivity.</li>');
+    }
+
     // this function should parse responses.. you can do anything you need..
     // you can make it general so it would parse all the responses the page receives based on a response field
     function parseResponse(response)
@@ -70,7 +77,7 @@
           $('#applist').html("");
           
           if (response.apps.length == 0){
-             $('#applist').append('<li>You currently have no projects</li>');
+             $('#applist').append('<li  class="label label-warning">You currently have no projects</li>');
           }
 
           for (var i=0; i < response.apps.length; i++){
@@ -87,20 +94,27 @@
     }
     </script>
 </head>    
-<body>
+<body id="pagelist">
 
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
         <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
-        <a class="btn pull-right" href="./clear.html"><i class="icon-lock"></i> <span class="listtext">Logout</span></a>
+        <a class="btn pull-right" href="./settings.html">
+          <i class="icon-cog"></i> 
+          <span class="listtext">Settings</span>
+        </a>
+        <a href="" class="btn pull-right" onclick="getProjectList(event);false;">
+          <i class="icon-repeat"></i> 
+          <span class="listtext">Refresh List</span> 
+        </a>
       </div>
     </div>
   </div>
 
   <div class="container">
     <ul id="applist">
-      <li>Getting projects <i class="icon-cog status-indicator"></i></li>
+      
     </ul> 
   </div>
   

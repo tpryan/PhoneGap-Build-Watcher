@@ -256,14 +256,20 @@
 
     </script>
   </head>
- <body>
+ <body id="pageProject">
 
   <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
             <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
-            <a class="btn pull-right" href="./clear.html"><i class="icon-lock"></i> <span class="listtext">Logout</span></a>
+            <a class="btn pull-right" href="./settings.html">
+                <i class="icon-cog"></i> 
+                <span class="listtext">Settings</span>
+            </a>
             <a href="./list.html" class="btn pull-right" ><i class="icon-list"></i> <span class="listtext">Project List</span></a>
+            <a href="" class="btn pull-right" onclick="linkGetProjectDetails(event);false;">
+                <i class="icon-repeat"></i> <span class="listtext">Refresh Status</span> 
+            </a>
 
         </div>
       </div>
@@ -285,17 +291,12 @@
                 </a>
             </li>
             <li>
-                <a href="" id="reloadbtn" class="btn btn-large" onclick="linkGetProjectDetails(event);false;">
-                    <i class="icon-repeat"></i> Refresh Status
-                </a>
-            </li>
-            <li>
                 <a href="" id="rebuildbtn" class="btn btn-large" onclick="rebuild(event);false;">
                     <i class="icon-cog"></i> Rebuild Application
                 </a>
             </li>
         </ul>
-    </div> 
+    </div>
   </body>
 </html>
 
