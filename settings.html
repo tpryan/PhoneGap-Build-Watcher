@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Build Watcher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <script type="text/javascript" charset="utf-8" src="phonegap.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/webtoolkit.base64.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/main.js"></script>    
+    <script type="text/javascript">
+
+    var baseURL = "https://build.phonegap.com";
+    var appApiPath = "/api/v1/apps/";
+    var username = "";
+    var password = "";
+
+
+    if (isInPhoneGap()){
+      document.addEventListener("deviceready", init, false);
+      $(document).ready(init);
+    }
+    else{
+
+      $(document).ready(init);
+
+    }
+
+    function init(){  
+      console.log("Ready");
+      username = localStorage.getItem("username");
+      password = localStorage.getItem("password");
+
+
+    }
+
+    
+    </script>
+</head>    
+<body>
+
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="./index.html">PhoneGap Build Watcher</a>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <a class="btn btn-large " href="./clear.html"><i class="icon-lock"></i> <span class="listtext">Logout</span></a>
+  </div>
+  
+</body>
+</html>
