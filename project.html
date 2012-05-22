@@ -22,10 +22,10 @@
     
     var platform = "";
     var urlPlatform = "";
+    var soundOn = false;
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
-      $(document).ready(init);
     }
     else{
       $(document).ready(init);
@@ -38,6 +38,18 @@
         platform = determinePlatform();
         urlPlatform = determineURLPlatform(platform);
         getProjectDetails();
+
+
+        if (isInPhoneGap() ==  false){
+            $('#rebuildbtn').remove();
+        }
+
+
+        if (isiOS()){
+            $("#toggleSound").removeClass('hidden'); 
+        }
+
+
     }
 
 
@@ -52,17 +64,32 @@
     function getProjectDetails()
     {
 
-        $.ajax({
-            url: baseURL + appApiPath + id,
-            success: parseRequest, 
-            type:"get",
-            error: networkErrorHandler,
-            headers:{
-                "Authorization": make_basic_auth(username,password)
-            },       
-            cache:false,
-            crossDomain:true
-        });
+
+        if (isInPhoneGap()){
+            $.ajax({
+                url: baseURL + appApiPath + id,
+                success: parseRequest, 
+                type:"get",
+                error: networkErrorHandler,
+                headers:{
+                    "Authorization": make_basic_auth(username,password)
+                },       
+                cache:false,
+                crossDomain:true
+            });
+        }
+        else{
+          $.ajax({
+                url: baseURL + appApiPath + id,
+                success: parseRequest, 
+                type:"get",
+                dataType: 'jsonp', 
+                error: networkErrorHandler,
+                cache:false,
+                crossDomain:true
+            });
+        }
+        
 
     }
 
@@ -76,17 +103,32 @@
     function rebuild(event){   
         console.log("Rebuild Started");
         event.preventDefault();
-        $.ajax({
-            url: baseURL + appApiPath + id + "/build/" ,
-            success: parseRequest, 
-            type:"POST",
-            error: networkErrorHandler,
-            headers:{
-                "Authorization": make_basic_auth(username,password)
-            },       
-            cache:false,
-            crossDomain:true
-        });
+        
+        if (isInPhoneGap()){
+            $.ajax({
+                url: baseURL + appApiPath + id + "/build/" ,
+                success: parseRequest, 
+                type:"POST",
+                error: networkErrorHandler,
+                headers:{
+                    "Authorization": make_basic_auth(username,password)
+                },       
+                cache:false,
+                crossDomain:true
+            });
+        }
+        else{
+          $.ajax({
+                url: baseURL + appApiPath + id + "/build/" ,
+                success: parseRequest, 
+                type:"POST",
+                error: networkErrorHandler,
+                cache:false,
+                crossDomain:true
+            });
+        }
+
+
 
         return false;
 
@@ -112,6 +154,12 @@
             return device.platform;
         }
         else{
+
+
+            if (isiOS()){ 
+                return "iOS"; 
+            }
+
             return "Not a supported platform";
         }
     }
@@ -122,7 +170,7 @@
         if (platform == "Not a supported platform"){
             urlPlatform = "android";
         }
-        if (platform == "iPad" || platform == "iPhone"  || platform.indexOf("iPod") >= 0  ){
+        if (platform == "i" || platform == "iPad" || platform == "iPhone"  || platform.indexOf("iPod") >= 0  ){
             urlPlatform = "ios";
         }
         return urlPlatform;
@@ -256,6 +304,25 @@
         }
     }
 
+    function toggleSound(){
+        event.preventDefault();
+        alertAudio.load();
+        if (soundOn){
+            soundOn = false;
+            $("#soundButton").removeClass('icon-volume-up');
+            $("#soundButton").addClass('icon-volume-off');
+            $("#toggleSound").removeClass('btn-success');
+            $("#soundtext").html('Sound Off');
+        }
+        else{
+            soundOn = true;
+            $("#soundButton").addClass('icon-volume-up');
+            $("#toggleSound").addClass('btn-success');
+            $("#soundButton").removeClass('icon-volume-off');
+            $("#soundtext").html('Sound On');
+        }
+    }
+
     </script>
   </head>
  <body id="pageProject">
@@ -295,6 +362,11 @@
             <li>
                 <a href="" id="rebuildbtn" class="btn btn-large" onclick="rebuild(event);false;">
                     <i class="icon-cog"></i> Rebuild Application
+                </a>
+            </li>
+            <li>
+                <a href="" id="toggleSound" class="btn btn-large hidden" onclick="toggleSound()">
+                    <i id="soundButton" class="icon-volume-off"></i> <span id="soundtext">Sound Off</span>
                 </a>
             </li>
         </ul>

@@ -20,14 +20,19 @@
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
-      $(document).ready(init);
+      console.log("In PhoneGap");
     }
     else{
       $(document).ready(init);
+      console.log("Not In PhoneGap");
     }
 
     function init(){
+      
       console.log("Page Started");
+
+
+
       $('#login').submit( function(){
           event.preventDefault();
           console.log("Login Attempted");
@@ -51,7 +56,10 @@
       $('#message').html('Attempting login <i class="icon-cog status-indicator"></i>' );
       $('#message').addClass('label-info');
 
-        $.ajax({
+
+      if (isInPhoneGap()){
+        console.log("Cross Domain");
+         $.ajax({
           url: baseURL + appApiPath,
           type:"get",
           error: errorHandler,
@@ -62,9 +70,32 @@
           cache:false,
           crossDomain:true
         });
+      }
+      else{
+         console.log("JSONP");
+         $.ajax({
+          url: baseURL + appApiPath,
+          dataType: 'jsonp',
+          error: errorHandler,
+          success: handleSuccess,
+          cache:false,
+          crossDomain:true
+        });
+      }
+
+       
 
 
 
+    }
+
+    function callback(response){
+      console.log(response);
+      console.log(status);
+      var username = $('#username').val();
+      var password = $('#password').val();
+      storeCredentials(username,password,response.token);
+      window.location.href = "list.html";
     }
 
     function handleSuccess(response, status, jqXHR){

@@ -37,13 +37,17 @@ label{
 	-webkit-transition: opacity .7 ease-in; /* easeInOutQuad */
 }
 
-#reloadbtn, #rebuildbtn, #downloadbtn{
+#reloadbtn, #rebuildbtn, #downloadbtn, #toggleSound{
 	width: 100%;
 }
 
 .transparent{
 	opacity: 0;
 	
+}
+
+.hidden{
+	display: none;
 }
 
 @-webkit-keyframes rotate {

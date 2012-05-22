@@ -20,7 +20,6 @@
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
-      $(document).ready(init);
     }
     else{
 
@@ -41,17 +40,35 @@
 
       console.log("Calling the JSON");
 
-      $.ajax({
-        url: baseURL + appApiPath,
-        success: parseResponse, 
-        type:"get",
-        error: netWorkErrorHandler,
-        headers:{
-            "Authorization": make_basic_auth(username,password)
-        },       
-        cache:false,
-        crossDomain:true
-      });
+      
+
+
+      if (isInPhoneGap()){
+        $.ajax({
+          url: baseURL + appApiPath,
+          success: parseResponse, 
+          type:"get",
+          error: netWorkErrorHandler,
+          headers:{
+              "Authorization": make_basic_auth(username,password)
+          },       
+          cache:false,
+          crossDomain:true
+        });
+
+      }
+      else{
+        $.ajax({
+          url: baseURL + appApiPath,
+          success: parseResponse,
+          dataType: 'jsonp', 
+          type:"get",
+          error: netWorkErrorHandler,
+          cache:false,
+          crossDomain:true
+        });
+      }
+
 
     }
 
