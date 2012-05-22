@@ -231,7 +231,9 @@
             vibrate();
         }
         else{
+            document.querySelector('#alertAudio').play();
             alert('Project Ready!')
+
         }
 
        
@@ -297,6 +299,7 @@
             </li>
         </ul>
     </div>
+    <audio id="alertAudio" src="beep.mp3"  preload="auto" autobuffer></audio>
   </body>
 </html>
 
