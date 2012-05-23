@@ -118,6 +118,7 @@
 			timediffauto="true"  retriesAllowed="1" passive="yes" remotedir="/examples/watcher" depends="yes" 
 			action="send" verbose="${verbose}" binary="yes" timestampGranularity="MINUTE">
 			<fileset dir="${build.dir}">
+				<include name="**/*.ico*"/>
 				<include name="**/*.png*"/>
 				<include name="**/*.mp3*"/>
 				<include name="**/*.eot*"/>
