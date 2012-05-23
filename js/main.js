@@ -18,3 +18,9 @@ function isiOS(){
 	var iOS = ( navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false );
 	return iOS;
 }
+
+function isAndroid(){
+	var ua = navigator.userAgent.toLowerCase();
+	var android = ua.indexOf("android") > -1; //&& ua.indexOf("mobile");
+	return android;
+}
