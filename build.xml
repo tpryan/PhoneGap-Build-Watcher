@@ -92,7 +92,6 @@
 				<exclude name='README.md'/>
 				<exclude name='config.xml'/>
 				<exclude name='beep.wav'/>
-				<exclude name='**/icons/**'/>
 				<exclude name='**/splash/**'/>
 				<exclude name='**/scripts/**'/>
 				<exclude name='LICENSE'/>
