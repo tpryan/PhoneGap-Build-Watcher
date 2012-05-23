@@ -23,6 +23,7 @@
     var platform = "";
     var urlPlatform = "";
     var soundOn = false;
+    var beep = "";
 
     if (isInPhoneGap()){
       document.addEventListener("deviceready", init, false);
@@ -41,12 +42,20 @@
 
 
         if (isInPhoneGap() ==  false){
+            console.log('Not in PhoneGap');
             $('#rebuildbtn').remove();
+        
+            if (isiOS()){
+                $("#toggleSound").removeClass('hidden'); 
+            }
+            else{
+                soundOn = true;
+                initSound();
+            }
         }
-
-
-        if (isiOS()){
-            $("#toggleSound").removeClass('hidden'); 
+        else{
+            console.log('In PhoneGap');
+            
         }
 
 
@@ -279,7 +288,10 @@
             vibrate();
         }
         else{
-            document.querySelector('#alertAudio').play();
+            if (soundOn){
+                beep.play();
+            }
+            
             alert('Project Ready!')
 
         }
@@ -306,7 +318,11 @@
 
     function toggleSound(){
         event.preventDefault();
-        alertAudio.load();
+
+        if (beep === ""){
+            initSound();
+        }
+
         if (soundOn){
             soundOn = false;
             $("#soundButton").removeClass('icon-volume-up');
@@ -321,6 +337,16 @@
             $("#soundButton").removeClass('icon-volume-off');
             $("#soundtext").html('Sound On');
         }
+    }
+
+    function initSound(){
+        console.log('Sound Init!');
+        var sound = new Audio('beep.mp3');
+        sound.load();
+        sound.play();
+        beep = sound;
+        beep.play();
+
     }
 
     </script>
@@ -371,7 +397,6 @@
             </li>
         </ul>
     </div>
-    <audio id="alertAudio" src="beep.mp3"  preload="auto" autobuffer></audio>
   </body>
 </html>
 
