@@ -3,9 +3,11 @@
 
 	<property file="build.properties"/>
 
-	<target name="build" depends="clean,copyFilesToBuild" description="Creating a clean copy of the site" />
+	<target name="build" depends="clean,copyFilesToBuild" description="Creating a clean copy of the site for phonegap" />
 
-	<target name="deployToWeb" depends="build,cleanWeb,uploadFilesToProd" description="Sending Files to Prod" />
+	<target name="buildForWeb" depends="clean,copyFilesToBuildForWeb" description="Creating a clean copy of the site mobile web app" />
+
+	<target name="deployToWeb" depends="build,cleanWeb,uploadFilesToDev,notifyWebDev" description="Sending Files to Prod" />
 
 	<target name="deployToPGB" depends="build,zip,uploadFilesToPGB" description="Sending Files to Phone Gap Build" />
 
@@ -72,12 +74,31 @@
 				<exclude name='.git/**'/>
 				<exclude name='build.xml'/>
 				<exclude name='build.properties'/>
-				<exclude name='README'/>
+				<exclude name='README.md'/>
 			</fileset>	
 		</copy>
 	</target>
 
-	<target name="uploadFilesToProd" description="Pushes application to production.">
+	<target name="copyFilesToBuildForWeb" description="Create a gitless version of the source code.">
+		<echo message="Copying Files to Build Location"/>
+		<copy todir="${build.dir}" preservelastmodified="true">
+			<fileset dir="${basedir}">
+				<exclude name='.gitignore'/>
+				<exclude name='.git/**'/>
+				<exclude name='build.xml'/>
+				<exclude name='build.properties'/>
+				<exclude name='README.md'/>
+				<exclude name='config.xml'/>
+				<exclude name='beep.wav'/>
+				<exclude name='**/icons/**'/>
+				<exclude name='**/splash/**'/>
+				<exclude name='**/scripts/**'/>
+				<exclude name='LICENSE'/>
+			</fileset>	
+		</copy>
+	</target>
+
+	<target name="uploadFilesToDev" description="Pushes application to production.">
 
 		<echo message="Pushing Text to Prod"/>
 		<ftp server="${ftp.server}" userid="${ftp.username}" password="${ftp.password}" 
@@ -97,6 +118,7 @@
 			action="send" verbose="${verbose}" binary="yes" timestampGranularity="MINUTE">
 			<fileset dir="${build.dir}">
 				<include name="**/*.png*"/>
+				<include name="**/*.mp3*"/>
 				<include name="**/*.eot*"/>
 				<include name="**/*.ttf*"/>
 				<include name="**/*.woff*"/>
@@ -154,6 +176,13 @@
 		<echo message="Playing Audio Alert"/>
 		<exec executable='say' failonerror='true'>
 			<arg value='Android Device is ready'/>
+		</exec>
+	</target>
+
+	<target name="notifyWebDev" description="Plays an audio file">
+		<echo message="Playing Audio Alert"/>
+		<exec executable='say' failonerror='true'>
+			<arg value='Development website is ready'/>
 		</exec>
 	</target>
 
