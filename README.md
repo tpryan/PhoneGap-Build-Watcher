@@ -6,7 +6,7 @@ An application for watching PhoneGap Build apps during development. To take a fe
 The finished application is available at: 
 
 * [Google Play] (https://play.google.com/store/apps/details?id=com.terrenceryan.pgbwatcher)
-
+* [Web App for iOS] (http://pgbwatcher.com)
 
 ## Requirements
 Requires a PhoneGap Build Account
@@ -29,8 +29,10 @@ new content to PGB, waiting for it to build, downloading new app, and installing
 Android device. 
 
 ## iOS 
-At present this application cannot be added to the App Store.  You can however build your own version 
-and run it on your device.  To do:
+At present this application cannot be added to the App Store.  There is a hosted webapp version of the 
+application at http://pgbwatcher.com
+
+You can also build your own version and run it on your device.  To do:
 
 * Get a Provision File for your own copy of the application at [Apple Developer Center] (https://developer.apple.com/)
 * Build a version of this repository either in PhoneGap or PhoneGap Build using your provision file. 
