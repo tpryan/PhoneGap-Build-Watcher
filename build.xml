@@ -28,7 +28,9 @@
 
 	<target name="clean">
 		<echo message="Cleaning Build Space"/>
-		<delete dir="${build.dir}"/>
+		<delete includeemptydirs="true">
+			<fileset dir="${build.dir}" includes="**/*" defaultexcludes="no" />
+		</delete>
 	</target>
 
 	<target name="uploadFilesToPGB" description="Handles uploading files to PhoneGap Build">
