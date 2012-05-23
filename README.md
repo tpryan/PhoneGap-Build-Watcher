@@ -6,7 +6,7 @@ An application for watching PhoneGap Build apps during development. To take a fe
 The finished application is available at: 
 
 * [Google Play] (https://play.google.com/store/apps/details?id=com.terrenceryan.pgbwatcher)
-* Apple App Store (In Review)
+
 
 ## Requirements
 Requires a PhoneGap Build Account
@@ -27,3 +27,10 @@ http://developer.android.com/sdk/index.html
 Basically in development with the ANT script and the SDK tool ADB you have the option of pushing
 new content to PGB, waiting for it to build, downloading new app, and installing it on an attached 
 Android device. 
+
+## iOS 
+At present this application cannot be added to the App Store.  You can however build your own version 
+and run it on your device.  To do:
+
+* Get a Provision File for your own copy of the application at [Apple Developer Center] (https://developer.apple.com/)
+* Build a version of this repository either in PhoneGap or PhoneGap Build using your provision file. 
