@@ -86,6 +86,14 @@
       $('#applist').append('<li class="label label-warning">Cannot connect to Build. Check your network connectivity.</li>');
     }
 
+    function compareAppsByTitle(a,b) {
+      if (a.title < b.title)
+         return -1;
+      if (a.title > b.title)
+        return 1;
+      return 0;
+    }
+
     // this function should parse responses.. you can do anything you need..
     // you can make it general so it would parse all the responses the page receives based on a response field
     function parseResponse(response)
@@ -100,9 +108,24 @@
              $('#applist').append('<li  class="label label-warning">You currently have no projects</li>');
           }
 
+          response.apps.sort(compareAppsByTitle);
+
           for (var i=0; i < response.apps.length; i++){
             var app = response.apps[i];
-            $('#applist').append('<li><a class="btn btn-large" href="project.html#id=' + app.id + '">' + app.title + '</a></li>');
+
+            var content = '<li><a class="btn btn-large" href="project.html#id='; 
+            content += app.id;
+            content += '">';
+            content += app.title;
+            
+
+            if (app.private === true){
+              content += ' <i class="icon-lock private"></i>'; 
+            }
+            content += '</a>';
+            content += '</li>';
+
+            $('#applist').append(content);
           }
 
 

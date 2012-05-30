@@ -18,6 +18,11 @@ label{
 
 #applist li a.btn-large, #applist li button.btn-large{
 	width: 95%;
+	text-align: left;
+}
+
+#applist li a.btn-large .private, #applist li button.btn-large .private{
+	float: right;
 }
 
 #actionlist{
